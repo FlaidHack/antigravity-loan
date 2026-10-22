@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "lab-loan-system-collection",
+		"name": "Lab Equipment Loan System",
+		"description": "Koleksi request Postman untuk pengujian API Lab Equipment Loan System sesuai SRS & PRD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. GET /items (Cek Stok Realtime Awal)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/items",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["items"]
+				}
+			}
+		},
+		{
+			"name": "2. POST /items (Tambah Master Alat Baru - US-01)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Solder Listrik 60W Adjustable\",\n    \"total_stock\": 10\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/items",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["items"]
+				}
+			}
+		},
+		{
+			"name": "3. POST /loans (Peminjaman Berhasil - 201 Created)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_id\": \"2100018001\",\n    \"item_id\": 1,\n    \"quantity\": 2\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/loans",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["loans"]
+				}
+			}
+		},
+		{
+			"name": "4. POST /loans (Tolak: Stok Kurang - 400 Bad Request)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_id\": \"2100018002\",\n    \"item_id\": 1,\n    \"quantity\": 999\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/loans",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["loans"]
+				}
+			}
+		},
+		{
+			"name": "5. POST /loans (Tolak: Item Tidak Ada - 404 Not Found)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_id\": \"2100018003\",\n    \"item_id\": 9999,\n    \"quantity\": 1\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/loans",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["loans"]
+				}
+			}
+		},
+		{
+			"name": "6. PUT /loans/1/return (Pengembalian Berhasil - 200 OK)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/loans/1/return",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["loans", "1", "return"]
+				}
+			}
+		},
+		{
+			"name": "7. PUT /loans/1/return (Tolak: Sudah Dikembalikan - 400 Bad Request)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/loans/1/return",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["loans", "1", "return"]
+				}
+			}
+		},
+		{
+			"name": "8. PUT /loans/9999/return (Tolak: Peminjaman Tidak Ada - 404 Not Found)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/loans/9999/return",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["loans", "9999", "return"]
+				}
+			}
+		},
+		{
+			"name": "9. GET /loans/student/2100018001 (Riwayat Peminjaman Mahasiswa - US-04)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/loans/student/2100018001",
+					"protocol": "http",
+					"host": ["127", "0", "0", "1"],
+					"port": "8000",
+					"path": ["loans", "student", "2100018001"]
+				}
+			}
+		}
+	]
+}
