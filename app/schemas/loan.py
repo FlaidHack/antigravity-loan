@@ -6,8 +6,8 @@ from app.schemas.item import ItemResponse
 
 class LoanCreate(BaseModel):
     student_id: str = Field(..., min_length=1, description="NIM Mahasiswa peminjam")
-    item_id: int = Field(..., gt=0, description="ID alat lab yang dipinjam")
-    quantity: int = Field(..., gt=0, description="Jumlah alat yang dipinjam")
+    item_id: int = Field(..., description="ID alat lab yang dipinjam")
+    quantity: int = Field(..., description="Jumlah alat yang dipinjam")
 
 
 class LoanResponse(BaseModel):

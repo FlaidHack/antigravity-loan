@@ -3,3 +3,6 @@
 pada @prd.md, buatkan seluruh kode program backend secara utuh menggunakan Python (FastAPI/Flask) dan
 SQLite. Pastikan struktur proyek rapi, menerapkan model relasional, serta mencakup logika pengurangan dan
 pemulihan stok secara otomatis.
+3. Periksa endpoint `POST /loans` dan `PUT /loans/{id}/return`. Pastikan validasi status code 400 dan 404 sesuai
+persis dengan daftar Acceptance Criteria nomor 1 dan 2 pada @prd.md. Lakukan refactoring pada kode jika belum
+memenuhi kriteria tersebut.

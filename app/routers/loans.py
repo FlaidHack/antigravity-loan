@@ -13,15 +13,19 @@ router = APIRouter(prefix="/loans", tags=["Loans (Peminjaman Alat)"])
     "",
     response_model=LoanResponse,
     status_code=status.HTTP_201_CREATED,
-    summary="Mengajukan peminjaman alat"
+    summary="Mengajukan peminjaman alat",
+    responses={
+        201: {"description": "Peminjaman berhasil dicatat, available_stock otomatis berkurang."},
+        400: {"description": "Bad Request jika quantity dipinjam > available_stock."},
+        404: {"description": "Not Found jika item_id tidak ada di database."}
+    }
 )
 def borrow_item(loan_in: LoanCreate, db: Session = Depends(get_db)):
     """
-    US-02 & Kriteria Keberhasilan:
-    - Mengurangi `available_stock` otomatis.
-    - Mengembalikan `400 Bad Request` jika quantity > available_stock.
-    - Mengembalikan `404 Not Found` jika item_id tidak ada di database.
-    - Mengembalikan `201 Created` jika peminjaman valid.
+    Acceptance Criteria 1:
+    - Mengembalikan 400 Bad Request jika quantity dipinjam > available_stock.
+    - Mengembalikan 404 Not Found jika item_id tidak ada di database.
+    - Mengembalikan 201 Created jika valid, dan available_stock pada tabel Item otomatis berkurang.
     """
     return loan_service.create_loan(db, loan_in)
 
@@ -30,15 +34,20 @@ def borrow_item(loan_in: LoanCreate, db: Session = Depends(get_db)):
     "/{id}/return",
     response_model=LoanResponse,
     status_code=status.HTTP_200_OK,
-    summary="Mengembalikan alat yang dipinjam"
+    summary="Mengembalikan alat yang dipinjam",
+    responses={
+        200: {"description": "Berhasil, status berubah jadi RETURNED, dan available_stock bertambah kembali."},
+        400: {"description": "Bad Request jika status transaksi sudah RETURNED."},
+        404: {"description": "Not Found jika transaksi peminjaman tidak ditemukan di database."}
+    }
 )
 def return_item(id: int, db: Session = Depends(get_db)):
     """
-    US-03 & Kriteria Keberhasilan:
-    - Mengembalikan `400 Bad Request` jika status transaksi sudah RETURNED.
-    - Mengembalikan `404 Not Found` jika ID transaksi tidak ditemukan.
-    - Mengembalikan `200 OK` jika berhasil, status berubah jadi RETURNED,
-      dan `available_stock` pada tabel Item bertambah kembali.
+    Acceptance Criteria 2:
+    - Mengembalikan 400 Bad Request jika status transaksi sudah RETURNED.
+    - Mengembalikan 404 Not Found jika transaksi peminjaman tidak ditemukan di database.
+    - Mengembalikan 200 OK jika berhasil, status berubah jadi RETURNED,
+      dan available_stock pada tabel Item bertambah kembali.
     """
     return loan_service.return_loan(db, id)
 
