@@ -1,0 +1,5 @@
+1.perhatikan 2 file markdown yang ada di folder ini, pelajari tanpa mengubah kode apapun terlebih dahulu
+2.Kamu adalah Senior Software Engineer. Berdasarkan spesifikasi teknis di @requirement.md dan aturan bisnis
+pada @prd.md, buatkan seluruh kode program backend secara utuh menggunakan Python (FastAPI/Flask) dan
+SQLite. Pastikan struktur proyek rapi, menerapkan model relasional, serta mencakup logika pengurangan dan
+pemulihan stok secara otomatis.
